@@ -25,24 +25,71 @@ app.get("/api/movies", asyncHandler(async (req, res) => {
     res.json(rows);
 }));
  
-// ---------- GET /api/movies/search?q=signal ----------
+// ---------- GET /api/filters ----------
+// The genres and years that appear in the search page's drop-down lists.
+app.get("/api/filters", asyncHandler(async (req, res) => {
+    const [genres] = await pool.query("SELECT name FROM genres ORDER BY name");
+    const [years] = await pool.query(
+        "SELECT DISTINCT release_year FROM movies WHERE release_year IS NOT NULL ORDER BY release_year DESC"
+    );
+    res.json({
+        genres: genres.map((g) => g.name),
+        years: years.map((y) => y.release_year),
+    });
+}));
+ 
+// ---------- GET /api/movies/search?q=signal&genre=Drama&year=2025 ----------
+// Every part is optional, but at least one is needed.
 // Must be defined BEFORE /api/movies/:id, otherwise "search" would be read as an id.
 app.get("/api/movies/search", asyncHandler(async (req, res) => {
     const q = String(req.query.q || "").trim();
+    const genre = String(req.query.genre || "").trim();
+    const yearText = String(req.query.year || "").trim();
  
-    if (q.length === 0) {
-        return res.status(400).json({ error: "Missing search text. Use /api/movies/search?q=..." });
-    }
-    if (q.length > 100) {
+    if (q.length > 100 || genre.length > 50) {
         return res.status(400).json({ error: "Search text is too long" });
     }
  
-    // Escape LIKE wildcards so a user typing % or _ searches for those characters
-    const escaped = q.replace(/[\\%_]/g, "\\$&");
+    let year = null;
+    if (yearText) {
+        year = Number(yearText);
+        if (!Number.isInteger(year) || year < 1800 || year > 2200) {
+            return res.status(400).json({ error: "year must be a four-digit number" });
+        }
+    }
+ 
+    if (!q && !genre && year === null) {
+        return res.status(400).json({ error: "Give a search text (q), a genre or a year" });
+    }
+ 
+    const conditions = [];
+    const params = [];
+ 
+    if (q) {
+        // Escape LIKE wildcards so a user typing % or _ searches for those characters
+        conditions.push("m.title LIKE ?");
+        params.push("%" + q.replace(/[\\%_]/g, "\\$&") + "%");
+    }
+    if (genre) {
+        // EXISTS keeps each movie's full genre list in the results
+        conditions.push(`EXISTS (
+            SELECT 1 FROM movie_genres mg2
+            JOIN genres g2 ON g2.id = mg2.genre_id
+            WHERE mg2.movie_id = m.id AND g2.name = ?)`);
+        params.push(genre);
+    }
+    if (year !== null) {
+        conditions.push("m.release_year = ?");
+        params.push(year);
+    }
  
     const [rows] = await pool.execute(
-        `${MOVIE_LIST_SQL} WHERE m.title LIKE ? GROUP BY m.id ORDER BY m.title LIMIT 50`,
-        [`%${escaped}%`]
+        `${MOVIE_LIST_SQL}
+         WHERE ${conditions.join(" AND ")}
+         GROUP BY m.id
+         ORDER BY (m.rating IS NULL), m.rating DESC, m.title
+         LIMIT 60`,
+        params
     );
     res.json(rows);
 }));

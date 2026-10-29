@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Search - Lumen</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="search.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="index.html" class="logo" aria-label="Lumen home">Lumen</a>
+
+        <!-- On this page the navbar search box searches live as you type -->
+        <form class="search" role="search" action="search.html" method="get">
+            <label for="q" class="visually-hidden">Search movies</label>
+            <input type="search" id="q" name="q" placeholder="Search movies, actors, genres" autocomplete="off">
+            <button type="submit">Search</button>
+        </form>
+
+        <a href="login.html" class="btn btn-login">Log in</a>
+    </header>
+
+    <main class="search-page">
+        <h1>Search</h1>
+
+        <div class="filters">
+            <label>Genre
+                <select id="genre"><option value="">All genres</option></select>
+            </label>
+            <label>Year
+                <select id="year"><option value="">Any year</option></select>
+            </label>
+            <button type="button" id="clear-filters" class="btn btn-ghost" hidden>Clear</button>
+        </div>
+
+        <p id="status" class="row-message" aria-live="polite"></p>
+
+        <div id="results" class="results"></div>
+    </main>
+
+    <footer class="footer">
+        <p>Lumen. A learning project, built with HTML, CSS and JavaScript.</p>
+    </footer>
+
+    <script src="js/search.js" defer></script>
+</body>
+</html>
