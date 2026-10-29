@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log in - Lumen</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="index.html" class="logo" aria-label="Lumen home">Lumen</a>
+    </header>
+
+    <main class="auth-page">
+        <div class="auth-card">
+            <div class="auth-tabs">
+                <button type="button" id="tab-login" class="active">Log in</button>
+                <button type="button" id="tab-register">Create account</button>
+            </div>
+
+            <form id="login-form" novalidate>
+                <label>Email
+                    <input type="email" name="email" autocomplete="email" required>
+                </label>
+                <label>Password
+                    <input type="password" name="password" autocomplete="current-password" required>
+                </label>
+                <p class="form-error" role="alert"></p>
+                <button type="submit" class="btn btn-primary">Log in</button>
+            </form>
+
+            <form id="register-form" novalidate hidden>
+                <label>Username
+                    <input type="text" name="username" autocomplete="username" minlength="3" maxlength="30" required>
+                </label>
+                <label>Email
+                    <input type="email" name="email" autocomplete="email" required>
+                </label>
+                <label>Password (at least 8 characters)
+                    <input type="password" name="password" autocomplete="new-password" minlength="8" required>
+                </label>
+                <label>Confirm password
+                    <input type="password" name="confirm" autocomplete="new-password" required>
+                </label>
+                <p class="form-error" role="alert"></p>
+                <button type="submit" class="btn btn-primary">Create account</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="js/auth.js" defer></script>
+</body>
+</html>

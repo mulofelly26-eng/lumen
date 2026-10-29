@@ -1,11 +1,15 @@
 const express = require("express");
 const path = require("path");
 const pool = require("./db");
+const cookieParser = require("cookie-parser");
+const { router: authRouter, requireAuth } = require("./auth");
+const watchlistRouter = require("./watchlist");
  
 const app = express();
 const PORT = process.env.PORT || 3000;
  
 app.use(express.json());
+app.use(cookieParser());
  
 // Wraps an async route so any error goes to the error handler at the bottom
 const asyncHandler = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
@@ -139,11 +143,9 @@ app.get("/api/movies/:id", asyncHandler(async (req, res) => {
 }));
  
 // ---------- Playback progress ("Continue watching") ----------
-// TEMPORARY: there is no login yet, so everyone is the "guest" user.
-// In Step 9 this function will read the real user from the login token instead.
-const GUEST_USER_ID = 1;
+// The logged-in user, set by requireAuth
 function currentUserId(req) {
-    return GUEST_USER_ID;
+    return req.user.id;
 }
  
 function parseMovieId(value) {
@@ -152,7 +154,7 @@ function parseMovieId(value) {
 }
  
 // GET /api/movies/5/progress  ->  { "progress_seconds": 754 }
-app.get("/api/movies/:id/progress", asyncHandler(async (req, res) => {
+app.get("/api/movies/:id/progress", requireAuth, asyncHandler(async (req, res) => {
     const movieId = parseMovieId(req.params.id);
     if (movieId === null) {
         return res.status(400).json({ error: "Movie id must be a positive whole number" });
@@ -167,7 +169,7 @@ app.get("/api/movies/:id/progress", asyncHandler(async (req, res) => {
 }));
  
 // PUT /api/movies/5/progress   body: { "seconds": 754 }
-app.put("/api/movies/:id/progress", asyncHandler(async (req, res) => {
+app.put("/api/movies/:id/progress", requireAuth, asyncHandler(async (req, res) => {
     const movieId = parseMovieId(req.params.id);
     if (movieId === null) {
         return res.status(400).json({ error: "Movie id must be a positive whole number" });
@@ -195,6 +197,9 @@ app.put("/api/movies/:id/progress", asyncHandler(async (req, res) => {
     res.json({ saved: true, progress_seconds: seconds });
 }));
  
+app.use("/api/auth", authRouter);
+app.use("/api/watchlist", watchlistRouter);
+ 
 // Unknown /api routes
 app.use("/api", (req, res) => {
     res.status(404).json({ error: "API route not found" });
@@ -214,13 +219,6 @@ async function start() {
     try {
         await pool.query("SELECT 1");                     // test the database before accepting requests
         console.log("Connected to MySQL");
- 
-        // Temporary guest account so watch progress has a user to belong to (removed in Step 9)
-        await pool.execute(
-            `INSERT IGNORE INTO users (id, username, email, password_hash)
-             VALUES (?, 'guest', 'guest@lumen.local', 'no-login-allowed')`,
-            [GUEST_USER_ID]
-        );
     } catch (err) {
         console.error("Could not connect to MySQL:", err.message);
         console.error("Check the MySQL service and the values in your .env file.");
