@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Watch - Lumen</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="watch.css">
+</head>
+<body>
+
+    <!-- Icons used by the player controls -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+        <symbol id="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></symbol>
+        <symbol id="i-volume" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4.03v8.05A4.5 4.5 0 0 0 16.5 12z"/></symbol>
+        <symbol id="i-muted" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M15 9l6 6m0-6l-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+        <symbol id="i-fullscreen" viewBox="0 0 24 24"><path d="M5 5h5v2H7v3H5V5zm9 0h5v5h-2V7h-3V5zM5 14h2v3h3v2H5v-5zm12 0h2v5h-5v-2h3v-3z"/></symbol>
+        <symbol id="i-exit-fullscreen" viewBox="0 0 24 24"><path d="M8 5h2v5H5V8h3V5zm6 0h2v3h3v2h-5V5zM5 14h5v5H8v-3H5v-2zm9 0h5v2h-3v3h-2v-5z"/></symbol>
+    </svg>
+
+    <header class="navbar">
+        <a href="index.html" class="logo" aria-label="Lumen home">Lumen</a>
+
+        <form class="search" role="search" action="search.html" method="get">
+            <label for="q" class="visually-hidden">Search movies</label>
+            <input type="search" id="q" name="q" placeholder="Search movies, actors, genres">
+            <button type="submit">Search</button>
+        </form>
+
+        <a href="login.html" class="btn btn-login">Log in</a>
+    </header>
+
+    <main class="watch-page">
+        <div class="watch-head">
+            <h1 id="watch-title">Loading...</h1>
+            <a id="details-link" href="index.html" class="back-link">&larr; Movie details</a>
+        </div>
+
+        <!-- Messages: "no video yet", errors, and so on -->
+        <p id="status" class="row-message" aria-live="polite"></p>
+
+        <!-- The player (shown by watch.js once a video is available) -->
+        <div id="player" class="player" hidden>
+            <video id="video" preload="metadata" playsinline></video>
+
+            <div id="resume-note" class="resume-note" hidden>
+                <span id="resume-text"></span>
+                <button type="button" id="start-over">Start over</button>
+            </div>
+
+            <div class="controls" id="controls">
+                <input type="range" id="seek" class="seek" min="0" max="100" step="0.1" value="0"
+                       aria-label="Seek">
+
+                <div class="controls-row">
+                    <button type="button" id="play-btn" class="ctrl" aria-label="Play">
+                        <svg><use href="#i-play"></use></svg>
+                    </button>
+
+                    <span id="time" class="time">0:00 / 0:00</span>
+
+                    <span class="spacer"></span>
+
+                    <button type="button" id="mute-btn" class="ctrl" aria-label="Mute">
+                        <svg><use href="#i-volume"></use></svg>
+                    </button>
+                    <input type="range" id="volume" class="volume" min="0" max="1" step="0.05" value="1"
+                           aria-label="Volume">
+
+                    <button type="button" id="fs-btn" class="ctrl" aria-label="Fullscreen">
+                        <svg><use href="#i-fullscreen"></use></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <details class="shortcuts">
+            <summary>Keyboard shortcuts</summary>
+            <ul>
+                <li><kbd>Space</kbd> or <kbd>K</kbd> play / pause</li>
+                <li><kbd>&larr;</kbd> <kbd>&rarr;</kbd> back / forward 5 seconds</li>
+                <li><kbd>J</kbd> <kbd>L</kbd> back / forward 10 seconds</li>
+                <li><kbd>&uarr;</kbd> <kbd>&darr;</kbd> volume</li>
+                <li><kbd>M</kbd> mute &nbsp; <kbd>F</kbd> fullscreen</li>
+            </ul>
+        </details>
+    </main>
+
+    <footer class="footer">
+        <p>Lumen. A learning project, built with HTML, CSS and JavaScript.</p>
+    </footer>
+
+    <script src="js/watch.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "course-work-2-assignmenrt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server.js",
+    "import": "node server/import-tmdb.js",
+    "fill:trailers": "node server/fill-trailers.js",
+    "fill:ids": "node server/fill-tmdb-ids.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "mysql2": "^3.24.6"
+  }
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lumen - Watch movies online</title>
+ 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="hero.css">
+</head>
+<body>
+ 
+    <header class="navbar">
+        <a href="index.html" class="logo" aria-label="Lumen home">Lumen</a>
+ 
+        <form class="search" role="search" action="search.html" method="get">
+            <label for="q" class="visually-hidden">Search movies</label>
+            <input type="search" id="q" name="q" placeholder="Search movies, actors, genres">
+            <button type="submit">Search</button>
+        </form>
+ 
+        <a href="login.html" class="btn btn-login">Log in</a>
+    </header>
+ 
+    <main>
+ 
+        <!-- Hero banner -->
+        <section class="hero" id="hero" aria-labelledby="hero-title">
+       <div class="hero-video" id="hero-video" aria-hidden="true"></div>
+       <div class="hero-content">
+           <p class="hero-meta" id="hero-meta"></p>
+           <h1 id="hero-title">Lumen</h1>
+           <p class="hero-desc" id="hero-desc"></p>
+           <div class="hero-actions">
+               <a href="#" id="hero-watch" class="btn btn-primary">Watch now</a>
+               <a href="#" id="hero-info" class="btn btn-ghost">More info</a>
+           </div>
+       </div>
+       <div class="hero-controls">
+           <div class="hero-dots" id="hero-dots"></div>
+           <button type="button" id="hero-sound" class="hero-sound" hidden>Sound on</button>
+       </div>
+   </section>
+ 
+        <!-- Row 1 -->
+        <section class="row" aria-labelledby="row-trending">
+            <h2 id="row-trending">Trending now</h2>
+            <div class="row-scroll" data-row="trending"></div>
+        </section>
+ 
+        <!-- Row 2 -->
+        <section class="row" aria-labelledby="row-top">
+            <h2 id="row-top">Top rated</h2>
+            <div class="row-scroll" data-row="top"></div>
+        </section>
+ 
+        <!-- Row 3 -->
+        <section class="row" aria-labelledby="row-new">
+            <h2 id="row-new">New this month</h2>
+            <div class="row-scroll" data-row="new"></div>
+        </section>
+ 
+    </main>
+ 
+    <footer class="footer">
+        <p>Lumen. A learning project, built with HTML and CSS.</p>
+    </footer>
+ 
+    <script src="js/main.js" defer></script>
+    <script src="js/hero.js" defer></script> 
+</body>
+</html>
+ 

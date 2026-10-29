@@ -1,0 +1,131 @@
+/* Movie details page. Loaded after style.css, so it reuses the same colours and fonts. */
+
+.movie-page {
+    padding: 24px var(--gutter) 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--muted);
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+.back-link:hover { color: var(--accent); }
+
+/* ---------- Poster + info ---------- */
+.detail-top {
+    display: grid;
+    grid-template-columns: minmax(200px, 300px) 1fr;
+    gap: clamp(20px, 5vw, 48px);
+    align-items: start;
+    animation: cardFadeIn 0.6s ease both;
+}
+
+.detail-poster {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+}
+
+.detail-poster span { font-size: 1.5rem; }
+
+.detail-info h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2rem, 6vw, 3.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 14px;
+}
+
+.detail-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    color: var(--muted);
+    margin-bottom: 16px;
+}
+
+.rating-badge {
+    padding: 2px 10px;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #1a1305;
+    font-weight: 700;
+}
+
+.genre-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 20px;
+    padding: 0;
+    list-style: none;
+}
+
+.genre-list li {
+    padding: 4px 14px;
+    border: 1px solid #2a3144;
+    border-radius: 999px;
+    background: var(--surface);
+    font-size: 0.9rem;
+}
+
+.detail-synopsis {
+    max-width: 62ch;
+    font-size: clamp(1rem, 2.2vw, 1.1rem);
+    color: #cfccc4;
+    margin-bottom: 26px;
+}
+
+/* "In My List" state */
+.btn.is-saved {
+    background: rgba(242, 178, 60, 0.18);
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+/* ---------- Trailer ---------- */
+.trailer { margin-top: 48px; }
+
+.trailer h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.25rem, 3vw, 1.6rem);
+    margin-bottom: 14px;
+}
+
+.trailer-frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    max-width: 900px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+}
+
+.trailer-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 720px) {
+    .detail-top { grid-template-columns: 1fr; }
+
+    /* poster centred and not too tall on a phone */
+    .detail-poster {
+        max-width: 240px;
+        margin: 0 auto;
+    }
+}

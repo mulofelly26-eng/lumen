@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Movie - Lumen</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="movie.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="index.html" class="logo" aria-label="Lumen home">Lumen</a>
+
+        <form class="search" role="search" action="search.html" method="get">
+            <label for="q" class="visually-hidden">Search movies</label>
+            <input type="search" id="q" name="q" placeholder="Search movies, actors, genres">
+            <button type="submit">Search</button>
+        </form>
+
+        <a href="login.html" class="btn btn-login">Log in</a>
+    </header>
+
+    <main class="movie-page">
+        <a href="index.html" class="back-link">&larr; Back to home</a>
+
+        <!-- movie.js fills this in -->
+        <div id="movie" aria-live="polite">
+            <p class="row-message">Loading movie...</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Lumen. A learning project, built with HTML, CSS and JavaScript.</p>
+    </footer>
+
+    <script src="js/movie.js" defer></script>
+</body>
+</html>

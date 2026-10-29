@@ -1,0 +1,349 @@
+/* ---------- Design tokens ---------- */
+:root {
+    --bg: #0e1118;          /* page background, deep blue-black */
+    --surface: #171b26;     /* inputs, cards */
+    --surface-2: #212737;   /* hover states */
+    --text: #ece9e2;        /* main text, warm off-white */
+    --muted: #9aa0b2;       /* secondary text */
+    --accent: #f2b23c;      /* amber, the only bright colour */
+    --accent-dark: #c98f1d;
+ 
+    --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+    --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+ 
+    --nav-h: 68px;
+    --gutter: clamp(16px, 4vw, 56px);
+    --card-w: clamp(130px, 18vw, 190px);
+}
+ 
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+ 
+html { scroll-behavior: smooth; }
+ 
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+ 
+a { color: inherit; text-decoration: none; }
+ 
+h1, h2, p { margin: 0; }
+ 
+:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+}
+ 
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+ 
+/* ---------- Navbar ---------- */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-height: var(--nav-h);
+    padding: 10px var(--gutter);
+    background: rgba(14, 17, 24, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #1d2230;
+}
+ 
+.logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.7rem;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+}
+ 
+.search {
+    display: flex;
+    flex: 1;
+    max-width: 480px;
+    margin-left: auto;
+}
+ 
+.search input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 14px;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid #2a3144;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    font: inherit;
+    font-size: 0.95rem;
+}
+ 
+.search input::placeholder { color: var(--muted); }
+ 
+.search input:focus-visible {
+    outline-offset: 0;
+    border-color: var(--accent);
+}
+ 
+.search button {
+    padding: 0 16px;
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid #2a3144;
+    border-radius: 0 8px 8px 0;
+    font: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+ 
+.search button:hover { background: #2b3348; }
+ 
+/* ---------- Buttons ---------- */
+.btn {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+ 
+.btn-login {
+    border-color: var(--accent);
+    color: var(--accent);
+    white-space: nowrap;
+}
+ 
+.btn-login:hover {
+    background: var(--accent);
+    color: #1a1305;
+}
+ 
+.btn-primary {
+    background: var(--accent);
+    color: #1a1305;
+}
+ 
+.btn-primary:hover { background: var(--accent-dark); }
+ 
+.btn-ghost {
+    background: rgba(236, 233, 226, 0.12);
+    color: var(--text);
+}
+ 
+.btn-ghost:hover { background: rgba(236, 233, 226, 0.22); }
+ 
+/* ---------- Hero ---------- */
+.hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: min(78vh, 640px);
+    padding: 0 var(--gutter) clamp(32px, 8vh, 72px);
+    /* Replace this gradient with a real backdrop:
+       background: linear-gradient(...), url("images/hero.jpg") center / cover; */
+    background:
+        linear-gradient(to top, var(--bg) 4%, rgba(14, 17, 24, 0) 60%),
+        linear-gradient(to right, rgba(14, 17, 24, 0.85) 10%, rgba(14, 17, 24, 0) 70%),
+        radial-gradient(circle at 78% 30%, #5a3a12 0%, #231a2e 45%, #0e1118 100%);
+}
+ 
+.hero-content { max-width: 560px; }
+ 
+.hero-meta {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+ 
+.hero h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.6rem, 8vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+}
+ 
+.hero-desc {
+    font-size: clamp(1rem, 2.2vw, 1.15rem);
+    color: #cfccc4;
+    max-width: 46ch;
+    margin-bottom: 26px;
+}
+ 
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+ 
+/* ---------- Movie rows ---------- */
+.row {
+    padding: 0 0 8px;
+    margin-top: 8px;
+}
+ 
+.row h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.25rem, 3vw, 1.6rem);
+    padding: 0 var(--gutter);
+    margin-bottom: 14px;
+}
+ 
+.row-scroll {
+    display: flex;
+    gap: 16px;
+    padding: 16px var(--gutter) 24px;   /* extra room so the zoomed card isn't clipped */
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scroll-padding-left: var(--gutter);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #2a3144 transparent;
+}
+ 
+.row-scroll::-webkit-scrollbar { height: 8px; }
+.row-scroll::-webkit-scrollbar-thumb { background: #2a3144; border-radius: 4px; }
+.row-scroll::-webkit-scrollbar-track { background: transparent; }
+ 
+/* ---------- Cards ---------- */
+.card {
+    flex: 0 0 var(--card-w);
+    scroll-snap-align: start;
+}
+ 
+.poster {
+    aspect-ratio: 2 / 3;
+    display: flex;
+    align-items: flex-end;
+    padding: 12px;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+ 
+.poster span {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    line-height: 1.1;
+    color: rgba(255, 255, 255, 0.92);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+ 
+/* When you have real posters, use <img class="poster" src="..."> instead */
+img.poster { width: 100%; object-fit: cover; padding: 0; }
+ 
+/* Fade in when the cards are added to the page */
+.card {
+    animation: cardFadeIn 0.6s ease both;
+    animation-delay: var(--delay, 0ms);
+}
+ 
+@keyframes cardFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+ 
+/* Slight zoom on hover or keyboard focus */
+.card:hover .poster,
+.card:focus-visible .poster {
+    transform: scale(1.06);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+}
+ 
+.row-message {
+    color: var(--muted);
+    padding: 40px 0;
+}
+ 
+.card-title {
+    margin-top: 10px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+ 
+.card-sub {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+ 
+/* Placeholder poster colours, delete when you use real images */
+.p1 { background: linear-gradient(160deg, #3b5b7a, #12202e); }
+.p2 { background: linear-gradient(160deg, #b5683a, #3a1d12); }
+.p3 { background: linear-gradient(160deg, #6a4a8a, #1d1330); }
+.p4 { background: linear-gradient(160deg, #3f6f5f, #0f231d); }
+.p5 { background: linear-gradient(160deg, #c28a2e, #3d2708); }
+.p6 { background: linear-gradient(160deg, #2e5fa8, #0b1730); }
+.p7 { background: linear-gradient(160deg, #a14b4b, #2d1010); }
+.p8 { background: linear-gradient(160deg, #4a7f8c, #10272d); }
+ 
+/* ---------- Footer ---------- */
+.footer {
+    margin-top: 40px;
+    padding: 28px var(--gutter);
+    border-top: 1px solid #1d2230;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+ 
+/* ---------- Responsive ---------- */
+@media (max-width: 720px) {
+    .navbar {
+        flex-wrap: wrap;
+        gap: 10px 12px;
+        padding-top: 10px;
+        padding-bottom: 12px;
+    }
+ 
+    .logo { font-size: 1.5rem; }
+ 
+    /* logo and login on the first line, search bar on its own line */
+    .btn-login { margin-left: auto; padding: 8px 16px; }
+ 
+    .search {
+        order: 3;
+        flex-basis: 100%;
+        max-width: none;
+        margin-left: 0;
+    }
+ 
+    .hero {
+        min-height: 68vh;
+        background:
+            linear-gradient(to top, var(--bg) 6%, rgba(14, 17, 24, 0.2) 70%),
+            radial-gradient(circle at 70% 20%, #5a3a12 0%, #231a2e 50%, #0e1118 100%);
+    }
+ 
+    .row-scroll { gap: 12px; }
+}
+ 
+@media (max-width: 420px) {
+    .hero-actions .btn { flex: 1; text-align: center; }
+}
+ 
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; animation: none !important; }
+}
