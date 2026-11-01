@@ -123,7 +123,7 @@ function saveProgress(force = false, keepalive = false) {
     fetch("/api/movies/" + encodeURIComponent(movieId) + "/progress", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ seconds }),
+        body: JSON.stringify({ seconds, duration: Math.floor(video.duration) }),
         keepalive,                           // lets the request finish while the page is closing
     }).then((response) => {
         if (response.status === 401) canSave = false;     // not logged in: stop trying

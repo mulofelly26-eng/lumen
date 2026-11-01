@@ -44,6 +44,8 @@
             font: inherit; cursor: pointer; transition: background 0.2s;
         }
         .profile-logout:hover { background: var(--surface-2); }
+        .profile-link { display: block; padding: 9px 10px; border-radius: 6px; color: var(--text); transition: background 0.2s; }
+        .profile-link:hover { background: var(--surface-2); }
         @media (max-width: 720px) { .profile { margin-left: auto; } }
     `;
     document.head.appendChild(style);
@@ -78,7 +80,13 @@
     logout.setAttribute("role", "menuitem");
     logout.textContent = "Log out";
  
-    menu.append(name, logout);
+    const myList = document.createElement("a");
+    myList.className = "profile-link";
+    myList.href = "mylist.html";
+    myList.setAttribute("role", "menuitem");
+    myList.textContent = "My List";
+ 
+    menu.append(name, myList, logout);
     wrapper.append(button, menu);
     loginLink.replaceWith(wrapper);
  

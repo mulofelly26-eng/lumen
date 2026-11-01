@@ -181,11 +181,15 @@ app.put("/api/movies/:id/progress", requireAuth, asyncHandler(async (req, res) =
     }
  
     try {
+        // The player also sends the video's length, so the home page can draw a progress bar
+        const length = Math.floor(Number(req.body && req.body.duration));
+        const duration = Number.isFinite(length) && length > 0 && length <= 1000000 ? length : null;
+ 
         await pool.execute(
-            `INSERT INTO watch_history (user_id, movie_id, progress_seconds)
-             VALUES (?, ?, ?)
-             ON DUPLICATE KEY UPDATE progress_seconds = ?`,
-            [currentUserId(req), movieId, seconds, seconds]
+            `INSERT INTO watch_history (user_id, movie_id, progress_seconds, duration_seconds)
+             VALUES (?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE progress_seconds = ?, duration_seconds = COALESCE(?, duration_seconds)`,
+            [currentUserId(req), movieId, seconds, duration, seconds, duration]
         );
     } catch (err) {
         if (err.code === "ER_NO_REFERENCED_ROW_2") {       // the movie id doesn't exist
@@ -195,6 +199,23 @@ app.put("/api/movies/:id/progress", requireAuth, asyncHandler(async (req, res) =
     }
  
     res.json({ saved: true, progress_seconds: seconds });
+}));
+ 
+// GET /api/history  ->  movies the logged-in user started but did not finish, latest first
+app.get("/api/history", requireAuth, asyncHandler(async (req, res) => {
+    const [rows] = await pool.execute(
+        `SELECT m.id, m.title, m.release_year, m.poster_url,
+                h.progress_seconds, h.duration_seconds
+         FROM watch_history h
+         JOIN movies m ON m.id = h.movie_id
+         WHERE h.user_id = ?
+           AND h.progress_seconds >= 5
+           AND (h.duration_seconds IS NULL OR h.progress_seconds < h.duration_seconds * 0.95)
+         ORDER BY h.updated_at DESC
+         LIMIT 20`,
+        [currentUserId(req)]
+    );
+    res.json(rows);
 }));
  
 app.use("/api/auth", authRouter);
