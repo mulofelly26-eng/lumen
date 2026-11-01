@@ -2,10 +2,22 @@ const express = require("express");
 const path = require("path");
 const pool = require("./db");
 const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
 const { router: authRouter, requireAuth } = require("./auth");
 const watchlistRouter = require("./watchlist");
  
 const app = express();
+ 
+// Render (and most hosts) put a proxy in front of your server. Trusting it lets the rate limiter
+// see each visitor's real address, and lets Express know the connection was HTTPS.
+app.set("trust proxy", 1);
+ 
+// Safe default headers (HSTS, no MIME sniffing, no framing...). The content-security-policy is
+// left for the security pass, because it has to list YouTube, Google Fonts and the TMDB images.
+app.use(helmet({ contentSecurityPolicy: false }));
+ 
+// Render calls this to check that the server is alive
+app.get("/healthz", (req, res) => res.send("ok"));
 const PORT = process.env.PORT || 3000;
  
 app.use(express.json());
