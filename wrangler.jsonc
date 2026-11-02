@@ -1,6 +1,6 @@
 {
     // The name must match your Worker's name in Cloudflare (your address starts with "lumenn")
-    "name": "lumenn",
+    "name": "lumen",
     "main": "worker/index.js",
     "compatibility_date": "2026-11-01",
 
