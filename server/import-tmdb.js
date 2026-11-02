@@ -11,7 +11,7 @@
 // Needs TMDB_TOKEN (your "API Read Access Token") in the .env file.
  
 const path = require("path");
-require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
+require("dotenv").config({ path: process.env.ENV_FILE || path.join(__dirname, "..", ".env") });
  
 const pool = require("./db");
  
