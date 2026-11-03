@@ -14,13 +14,31 @@ app.set("trust proxy", 1);
  
 // Safe default headers (HSTS, no MIME sniffing, no framing...). The content-security-policy is
 // left for the security pass, because it has to list YouTube, Google Fonts and the TMDB images.
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(helmet({
+    contentSecurityPolicy: {
+        useDefaults: false,
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'"],                                   // no inline scripts allowed
+            styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+            fontSrc: ["https://fonts.gstatic.com"],
+            imgSrc: ["'self'", "data:", "https://image.tmdb.org"],   // TMDB posters
+            mediaSrc: ["'self'", "https:"],                          // video files
+            frameSrc: ["https://www.youtube-nocookie.com"],          // trailers
+            connectSrc: ["'self'"],
+            objectSrc: ["'none'"],
+            baseUri: ["'self'"],
+            formAction: ["'self'"],
+            frameAncestors: ["'none'"],                              // nobody can embed this site
+        },
+    },
+}));
  
 // Render calls this to check that the server is alive
 app.get("/healthz", (req, res) => res.send("ok"));
 const PORT = process.env.PORT || 3000;
  
-app.use(express.json());
+app.use(express.json({ limit: "10kb" }));       // login forms are tiny: refuse big bodies
 app.use(cookieParser());
  
 // Wraps an async route so any error goes to the error handler at the bottom
@@ -243,6 +261,13 @@ app.use(express.static(path.join(__dirname, "..", "public")));
  
 // ---------- Error handler (must be last) ----------
 app.use((err, req, res, next) => {
+    if (err.type === "entity.parse.failed") {
+        return res.status(400).json({ error: "The request body is not valid JSON." });
+    }
+    if (err.type === "entity.too.large") {
+        return res.status(413).json({ error: "The request is too large." });
+    }
+ 
     console.error(err);                                   // full details stay in the terminal
     res.status(500).json({ error: "Something went wrong on the server" });
 });
