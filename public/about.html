@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>About us - Lumen</title>
+    <meta name="description" content="Lumen is a movie discovery site built as a learning project: browse, search and save movies, and watch trailers.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="index.html" class="logo" aria-label="Lumen home">Lumen</a>
+
+        <form class="search" role="search" action="search.html" method="get">
+            <label for="q" class="visually-hidden">Search movies</label>
+            <input type="search" id="q" name="q" placeholder="Search movies, actors, genres">
+            <button type="submit">Search</button>
+        </form>
+
+        <a href="login.html" class="btn btn-login">Log in</a>
+    </header>
+
+    <main class="content-page">
+        <h1>About Lumen</h1>
+        <p class="lead">Lumen is a place to discover movies: browse what's popular, search by title, genre or year, watch trailers, and keep a list of what you want to see next.</p>
+
+        <h2>What you can do here</h2>
+        <ul>
+            <li>Browse rows of popular, top-rated and new movies, with a trailer playing on the home page.</li>
+            <li>Search by title and filter by genre or year.</li>
+            <li>Open any movie for its poster, story, rating, genres and trailer.</li>
+            <li>Create a free account to build your own <strong>My List</strong> and pick up where you left off with <strong>Continue watching</strong>.</li>
+        </ul>
+
+        <h2>About the films</h2>
+        <p>Lumen is a catalogue, not a pirate site. Movie information comes from TMDB, trailers play from their official YouTube uploads, and a full film is only shown when there is a licensed source for it, such as a public-domain or Creative Commons release. Where a film is not available here, you will not find a copy of it on this site.</p>
+
+        <h2>About me</h2>
+        <div class="info-box">
+            <p>Hi, I'm <strong>Mulo</strong>, a Computer Science student. I built Lumen to learn how a real website fits together, from the design on the screen to the server and the database behind it.</p>
+            <p>I'm still learning, so I'm glad to hear what works, what doesn't, and what you'd like to see next. You can reach me on the <a href="contact.html">Contact</a> page.</p>
+        </div>
+
+        <h2>How it's built</h2>
+        <p>The pages use plain HTML, CSS and JavaScript. Behind them is a Node.js and Express server with a MySQL database. Passwords are stored only as bcrypt hashes, never as plain text. The site runs on Cloudflare, Render and Aiven.</p>
+
+        <h2>Credits</h2>
+        <div class="info-box">
+            <p>This product uses the <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">TMDB</a> API but is not endorsed or certified by TMDB.</p>
+            <p>Posters, descriptions and ratings are provided by TMDB. Trailers belong to their owners and are played through YouTube. All film titles, posters and trademarks belong to their respective owners.</p>
+        </div>
+    </main>
+
+    <footer class="footer"></footer>
+
+    <script src="js/nav.js" defer></script>
+    <script src="js/footer.js" defer></script>
+</body>
+</html>

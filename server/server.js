@@ -165,9 +165,9 @@ app.get("/api/movies/:id", asyncHandler(async (req, res) => {
  
     // The list query leaves out the long fields, so fetch the rest for the details page
     const [details] = await pool.execute(
-        "SELECT description, duration_minutes, trailer_url, video_url FROM movies WHERE id = ?",
-        [id]
-    );
+    "SELECT description, duration_minutes, trailer_url, video_url, tmdb_id FROM movies WHERE id = ?",
+    [id]
+);
  
     res.json({ ...rows[0], ...details[0] });
 }));

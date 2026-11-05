@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FAQ - Lumen</title>
+    <meta name="description" content="Answers to common questions about Lumen: accounts, trailers, watching films, your data and how to get help.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pages.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="index.html" class="logo" aria-label="Lumen home">Lumen</a>
+
+        <form class="search" role="search" action="search.html" method="get">
+            <label for="q" class="visually-hidden">Search movies</label>
+            <input type="search" id="q" name="q" placeholder="Search movies, actors, genres">
+            <button type="submit">Search</button>
+        </form>
+
+        <a href="login.html" class="btn btn-login">Log in</a>
+    </header>
+
+    <main class="content-page">
+        <h1>Frequently asked questions</h1>
+        <p class="lead">Quick answers about how Lumen works. If yours isn't here, <a href="contact.html">get in touch</a>.</p>
+
+        <details class="faq-item">
+            <summary>What is Lumen?</summary>
+            <p>Lumen is a movie discovery site. You can browse popular movies, search by title, genre or year, read about each film, watch its trailer, and save movies to your own list.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Is it free? Are there ads?</summary>
+            <p>Yes, it's free to use, and there are no ads on Lumen.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Can I watch full movies here?</summary>
+            <p>Only some. A full film appears only when there is a licensed source for it, such as a public-domain or Creative Commons film. For everything else you'll find the information and the trailer, and the "Watch now" page will tell you there is no video yet. Lumen does not host or link to pirated copies.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Where does the movie information come from?</summary>
+            <p>From TMDB, a community-built movie database. Posters, descriptions, ratings and genres all come from there. If you spot a mistake, it is usually best corrected on TMDB itself, and the fix will reach Lumen the next time the data is refreshed.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Do I need an account?</summary>
+            <p>No. You can browse, search and watch trailers without one. An account is needed for <strong>My List</strong> and <strong>Continue watching</strong>, because those are saved for you.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>How do I create an account or log in?</summary>
+            <p>Use the <a href="login.html">Log in</a> button at the top of any page, then pick "Create account". You need a username, an email address and a password of at least 8 characters. When you're logged in, a round button with the first letter of your name appears at the top, with My List and Log out inside.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>How is my data kept safe?</summary>
+            <p>Your password is stored only as a scrambled hash, so nobody, including me, can read it. Your login is kept in a secure cookie that page scripts cannot read. I only keep what the site needs: your username, email, your list and where you stopped watching.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>How do I delete my account?</summary>
+            <p>There is no delete button yet. <a href="contact.html">Send me a message</a> from the email you registered with, and I'll remove your account and everything saved with it.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Why is the first page so slow sometimes?</summary>
+            <p>Lumen runs on free hosting, which goes to sleep when nobody has used it for a while. The first visit after a quiet period can take up to a minute to wake it up. After that it's fast.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>Something is wrong with a movie or the site. What should I do?</summary>
+            <p>Please tell me through the <a href="contact.html">Contact</a> page. Include the page address and what happened, and I'll look into it.</p>
+        </details>
+
+        <details class="faq-item">
+            <summary>I own a film or a trailer shown here and want it removed.</summary>
+            <p>Write to me through the <a href="contact.html">Contact</a> page with the title and your details, and I'll take it down quickly.</p>
+        </details>
+    </main>
+
+    <footer class="footer"></footer>
+
+    <script src="js/nav.js" defer></script>
+    <script src="js/footer.js" defer></script>
+</body>
+</html>

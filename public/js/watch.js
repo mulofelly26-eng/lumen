@@ -21,7 +21,7 @@ const startOver   = document.getElementById("start-over");
  
 const params  = new URLSearchParams(window.location.search);
 const movieId = params.get("id");
- 
+
 // ---------- Helpers ----------
 function formatTime(totalSeconds) {
     if (!Number.isFinite(totalSeconds) || totalSeconds < 0) totalSeconds = 0;
@@ -318,6 +318,11 @@ function setupPlayer(videoUrl) {
  
 // ---------- Start ----------
 async function init() {
+    const response = await fetch("/api/movies/" + encodeURIComponent(movieId));
+    const movie = await response.json();
+    
+    console.log("Database ID:", movie.id);
+    console.log("TMDB ID:", movie.tmdb_id);
     if (!movieId || !/^\d+$/.test(movieId)) {
         titleEl.textContent = "No movie selected";
         showStatus("Go back to the home page and pick a movie.");
