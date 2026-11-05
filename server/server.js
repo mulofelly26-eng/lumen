@@ -165,9 +165,9 @@ app.get("/api/movies/:id", asyncHandler(async (req, res) => {
  
     // The list query leaves out the long fields, so fetch the rest for the details page
     const [details] = await pool.execute(
-    "SELECT description, duration_minutes, trailer_url, video_url, tmdb_id FROM movies WHERE id = ?",
-    [id]
-);
+        "SELECT description, duration_minutes, trailer_url, video_url, tmdb_id FROM movies WHERE id = ?",
+        [id]
+    );
  
     res.json({ ...rows[0], ...details[0] });
 }));
@@ -257,7 +257,9 @@ app.use("/api", (req, res) => {
 });
  
 // ---------- Front-end files ----------
-app.use(express.static(path.join(__dirname, "..", "public")));
+// Also serves clean addresses for the pages: /about opens about.html, /faq opens faq.html,
+// /contact opens contact.html (the same as on Cloudflare)
+app.use(express.static(path.join(__dirname, "..", "public"), { extensions: ["html"] }));
  
 // ---------- Error handler (must be last) ----------
 app.use((err, req, res, next) => {
