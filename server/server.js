@@ -24,7 +24,11 @@ app.use(helmet({
             fontSrc: ["https://fonts.gstatic.com"],
             imgSrc: ["'self'", "data:", "https://image.tmdb.org"],   // TMDB posters
             mediaSrc: ["'self'", "https:"],                          // video files
-            frameSrc: ["https://www.youtube-nocookie.com"],          // trailers
+            frameSrc: [
+    "'self'",
+    "https://www.youtube-nocookie.com",
+    "https://vidsrc.sh"
+],          // trailers
             connectSrc: ["'self'"],
             objectSrc: ["'none'"],
             baseUri: ["'self'"],
@@ -230,7 +234,30 @@ app.put("/api/movies/:id/progress", requireAuth, asyncHandler(async (req, res) =
  
     res.json({ saved: true, progress_seconds: seconds });
 }));
- 
+// new continue watching feature 
+app.post("/api/movies/:id/watched", requireAuth, asyncHandler(async (req, res) => {
+    const movieId = parseMovieId(req.params.id);
+    if (movieId === null) {
+        return res.status(400).json({ error: "Movie id must be a positive whole number" });
+    }
+
+    try {
+        await pool.execute(
+            `INSERT INTO watch_history (user_id, movie_id, progress_seconds)
+             VALUES (?, ?, 5)
+             ON DUPLICATE KEY UPDATE updated_at = CURRENT_TIMESTAMP`,
+            [currentUserId(req), movieId]
+        );
+    } catch (err) {
+        if (err.code === "ER_NO_REFERENCED_ROW_2") {
+            return res.status(404).json({ error: "Movie not found" });
+        }
+        throw err;
+    }
+
+    res.json({ saved: true });
+}));
+// the end of the section
 // GET /api/history  ->  movies the logged-in user started but did not finish, latest first
 app.get("/api/history", requireAuth, asyncHandler(async (req, res) => {
     const [rows] = await pool.execute(
@@ -287,5 +314,5 @@ async function start() {
  
     app.listen(PORT, () => console.log(`Open http://localhost:${PORT}`));
 }
- 
+
 start();
