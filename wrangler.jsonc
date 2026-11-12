@@ -1,8 +1,11 @@
 {
     // The name must match your Worker's name in Cloudflare (your address starts with "lumenn")
-    "name": "lumen",
+    "name": "lumenn",
     "main": "worker/index.js",
     "compatibility_date": "2026-11-01",
+
+    // Pings your Render server every 10 minutes so it does not fall asleep
+    "triggers": { "crons": ["*/10 * * * *"] },
 
     "assets": {
         "directory": "./public",

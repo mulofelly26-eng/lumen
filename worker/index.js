@@ -57,4 +57,15 @@ export default {
  
         return env.ASSETS.fetch(request);
     },
+ 
+    // Runs on a schedule (see "triggers" in wrangler.jsonc). Visiting the Render server every
+    // 10 minutes stops its free plan from going to sleep after 15 minutes without visitors.
+    async scheduled(controller, env, ctx) {
+        if (!env.API_ORIGIN) return;
+        ctx.waitUntil(
+            fetch(new URL("/healthz", env.API_ORIGIN))
+                .then((response) => console.log("Keep-alive ping:", response.status))
+                .catch((error) => console.log("Keep-alive ping failed:", String(error)))
+        );
+    },
 };
