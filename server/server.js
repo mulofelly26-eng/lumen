@@ -50,7 +50,7 @@ const asyncHandler = (fn) => (req, res, next) => Promise.resolve(fn(req, res, ne
  
 // Base query: a movie with its genres joined into one text value
 const MOVIE_LIST_SQL = `
-    SELECT m.id, m.title, m.release_year, m.rating, m.poster_url,
+    SELECT m.id, m.type, m.seasons, m.episodes, m.title, m.release_year, m.rating, m.poster_url,
            GROUP_CONCAT(g.name ORDER BY g.name SEPARATOR ', ') AS genres
     FROM movies m
     LEFT JOIN movie_genres mg ON mg.movie_id = m.id
@@ -59,9 +59,12 @@ const MOVIE_LIST_SQL = `
  
 // ---------- GET /api/movies ----------
 app.get("/api/movies", asyncHandler(async (req, res) => {
-    const [rows] = await pool.query(`${MOVIE_LIST_SQL} GROUP BY m.id ORDER BY m.id`);
-    res.json(rows);
-}));
+      const type = ["movie", "tv", "anime"].includes(req.query.type) ? req.query.type : "movie";
+      const [rows] = await pool.execute(
+          `${MOVIE_LIST_SQL} WHERE m.type = ? GROUP BY m.id ORDER BY m.id`, [type]
+      );
+      res.json(rows);
+  }));
  
 // ---------- GET /api/filters ----------
 // The genres and years that appear in the search page's drop-down lists.
@@ -141,7 +144,7 @@ app.get("/api/movies/featured", asyncHandler(async (req, res) => {
         FROM movies m
         LEFT JOIN movie_genres mg ON mg.movie_id = m.id
         LEFT JOIN genres g        ON g.id = mg.genre_id
-        WHERE m.trailer_url IS NOT NULL AND m.trailer_url <> ''
+        WHERE m.type = 'movie' AND m.trailer_url IS NOT NULL AND m.trailer_url <> ''
         GROUP BY m.id
         ORDER BY RAND()
         LIMIT 6

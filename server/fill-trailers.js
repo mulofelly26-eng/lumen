@@ -77,7 +77,7 @@ function pickTrailerUrl(videos) {
  
 async function main() {
     const [movies] = await pool.query(
-        "SELECT id, title, release_year FROM movies WHERE trailer_url IS NULL OR trailer_url = '' ORDER BY id"
+        "SELECT id, title, release_year FROM movies WHERE type = 'movie' AND (trailer_url IS NULL OR trailer_url = '') ORDER BY id"
     );
  
     if (movies.length === 0) {

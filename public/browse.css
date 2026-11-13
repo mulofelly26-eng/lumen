@@ -1,0 +1,8 @@
+.tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 10px; }
+.tabs a {
+    padding: 8px 20px; border: 1px solid #2a3144; border-radius: 999px;
+    background: var(--surface); color: var(--text); font-weight: 500;
+    transition: border-color 0.2s, color 0.2s;
+}
+.tabs a:hover { border-color: var(--accent); }
+.tabs a[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: #1a1305; font-weight: 700; }

@@ -99,6 +99,8 @@ function renderMovie(movie) {
     const bits = [];
     if (movie.release_year) bits.push(movie.release_year);
     if (movie.duration_minutes) bits.push(formatDuration(movie.duration_minutes));
+    if (movie.seasons) bits.push(movie.seasons + (movie.seasons === 1 ? " season" : " seasons"));
+    if (movie.episodes) bits.push(movie.episodes + " episodes");
     meta.textContent = bits.join("  |  ");
  
     const ratingNumber = Number(movie.rating);

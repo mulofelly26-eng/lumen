@@ -109,7 +109,7 @@ async function fetchExtras(tmdbId) {
 async function findMovie(tmdbId, title, year) {
     const [rows] = await pool.execute(
         `SELECT id, trailer_url, duration_minutes, tmdb_id FROM movies
-         WHERE tmdb_id = ? OR (title = ? AND release_year <=> ?)
+        WHERE type = 'movie' AND (tmdb_id = ? OR (title = ? AND release_year <=> ?))
          ORDER BY (tmdb_id IS NULL) LIMIT 1`,
         [tmdbId, title, year]
     );
