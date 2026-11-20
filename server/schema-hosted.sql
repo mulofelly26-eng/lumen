@@ -74,3 +74,12 @@ CREATE TABLE IF NOT EXISTS watch_history (
     CONSTRAINT fk_wh_user  FOREIGN KEY (user_id)  REFERENCES users (id)  ON DELETE CASCADE,
     CONSTRAINT fk_wh_movie FOREIGN KEY (movie_id) REFERENCES movies (id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
+SELECT * FROM movies WHERE title = 'Classroom of the elite';
+
+ALTER TABLE movies DROP INDEX uq_movies_tmdb_id,
+    ADD UNIQUE KEY uq_movies_type_tmdb (type, tmdb_id);
+
+    SHOW COLUMNS FROM movies LIKE 'type';
+
+    SELECT id, title, type, tmdb_id, seasons, episodes FROM movies WHERE type <> 'movie' LIMIT 5;
+    SELECT id, title, type, tmdb_id, seasons, episodes FROM movies WHERE type = 'tv' LIMIT 3;

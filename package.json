@@ -8,7 +8,8 @@
     "start": "node server/server.js",
     "import": "node server/import-tmdb.js",
     "fill:trailers": "node server/fill-trailers.js",
-    "fill:ids": "node server/fill-tmdb-ids.js"
+    "fill:ids": "node server/fill-tmdb-ids.js",
+    "manual": "node server/add-title.js"
   },
   "keywords": [],
   "author": "",
