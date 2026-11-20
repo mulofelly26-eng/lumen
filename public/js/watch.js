@@ -5,8 +5,8 @@
 // The "tv" pattern is a GUESS: replace it with the exact format the provider gave you.
 // Animes are TV shows on TMDB, so they use the same pattern as "tv".
 const PLAYER_URLS = {
-    movie: "https://vidsrc.sh/embed/movie/{id}",
-    tv:    "https://vidsrc.sh/embed/tv/{id}/{season}/{episode}"
+    movie: "https://vidsrc.mov/embed/movie/{id}",
+    tv:    "https://vidsrc.mov/embed/tv/{id}/{season}/{episode}"
 };
 PLAYER_URLS.anime = PLAYER_URLS.tv;
 
