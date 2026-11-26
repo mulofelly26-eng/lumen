@@ -86,11 +86,15 @@ app.get("/api/movies/search", asyncHandler(async (req, res) => {
     const q = String(req.query.q || "").trim();
     const genre = String(req.query.genre || "").trim();
     const yearText = String(req.query.year || "").trim();
- 
+    const type = String(req.query.type || "").trim();
+
     if (q.length > 100 || genre.length > 50) {
         return res.status(400).json({ error: "Search text is too long" });
     }
- 
+    if (type && !["movie", "tv", "anime"].includes(type)) {
+        return res.status(400).json({ error: "type must be movie, tv or anime" });
+    }
+
     let year = null;
     if (yearText) {
         year = Number(yearText);
@@ -98,21 +102,19 @@ app.get("/api/movies/search", asyncHandler(async (req, res) => {
             return res.status(400).json({ error: "year must be a four-digit number" });
         }
     }
- 
-    if (!q && !genre && year === null) {
-        return res.status(400).json({ error: "Give a search text (q), a genre or a year" });
+
+    if (!q && !genre && !type && year === null) {
+        return res.status(400).json({ error: "Give a search text (q), a genre, a type or a year" });
     }
- 
+
     const conditions = [];
     const params = [];
- 
+
     if (q) {
-        // Escape LIKE wildcards so a user typing % or _ searches for those characters
         conditions.push("m.title LIKE ?");
         params.push("%" + q.replace(/[\\%_]/g, "\\$&") + "%");
     }
     if (genre) {
-        // EXISTS keeps each movie's full genre list in the results
         conditions.push(`EXISTS (
             SELECT 1 FROM movie_genres mg2
             JOIN genres g2 ON g2.id = mg2.genre_id
@@ -123,7 +125,11 @@ app.get("/api/movies/search", asyncHandler(async (req, res) => {
         conditions.push("m.release_year = ?");
         params.push(year);
     }
- 
+    if (type) {
+        conditions.push("m.type = ?");
+        params.push(type);
+    }
+
     const [rows] = await pool.execute(
         `${MOVIE_LIST_SQL}
          WHERE ${conditions.join(" AND ")}

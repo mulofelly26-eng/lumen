@@ -2,6 +2,7 @@ const DEBOUNCE_MS = 300;     // wait this long after the last key press before s
 
 const form = document.querySelector(".search");
 const qInput = document.getElementById("q");
+const typeSelect = document.getElementById("type");
 const genreSelect = document.getElementById("genre");
 const yearSelect = document.getElementById("year");
 const clearBtn = document.getElementById("clear-filters");
@@ -40,6 +41,7 @@ function createCard(movie, index) {
     if (movie.release_year) parts.push(movie.release_year);
     const rating = Number(movie.rating);
     if (movie.rating !== null && movie.rating !== "" && !Number.isNaN(rating)) parts.push(rating.toFixed(1));
+    if (movie.type && movie.type !== "movie") parts.push(movie.type === "anime" ? "Anime" : "TV");
     sub.textContent = parts.join(" | ");
 
     card.append(poster, title, sub);
@@ -61,9 +63,10 @@ function showStatus(text) {
 }
 
 // Keeps the address bar in step with the search, so the link can be shared
-function updateUrl(q, genre, year) {
+function updateUrl(q, genre, year, type) {
     const params = new URLSearchParams();
     if (q) params.set("q", q);
+    if (type) params.set("type", type);
     if (genre) params.set("genre", genre);
     if (year) params.set("year", year);
     const text = params.toString();
@@ -84,15 +87,16 @@ async function runSearch() {
     const q = qInput.value.trim();
     const genre = genreSelect.value;
     const year = yearSelect.value;
+    const type = typeSelect.value;
 
-    updateUrl(q, genre, year);
+    updateUrl(q, genre, year, type);
 
     if (controller) controller.abort();      // a newer search replaces the older one
 
-    if (!q && !genre && !year) {
+    if (!q && !genre && !year && !type) {
         resultsEl.replaceChildren();
         clearBtn.hidden = true;
-        showStatus("Type a title, or pick a genre or a year.");
+        showStatus("Type a title, or pick a type, a genre or a year.");
         return;
     }
 
@@ -106,6 +110,7 @@ async function runSearch() {
         if (q) params.set("q", q);
         if (genre) params.set("genre", genre);
         if (year) params.set("year", year);
+        if (type) params.set("type", type);
 
         const response = await fetch("/api/movies/search?" + params, { signal: controller.signal });
         if (!response.ok) throw new Error("Server answered with status " + response.status);
@@ -138,11 +143,13 @@ form.addEventListener("submit", (event) => {
     runSearch();
 });
 
+typeSelect.addEventListener("change", runSearch);
 genreSelect.addEventListener("change", runSearch);
 yearSelect.addEventListener("change", runSearch);
 
 clearBtn.addEventListener("click", () => {
     qInput.value = "";
+    typeSelect.value = "";
     genreSelect.value = "";
     yearSelect.value = "";
     runSearch();
@@ -165,6 +172,7 @@ async function init() {
     // Fill the controls from the address, for example search.html?q=spider&genre=Action
     const params = new URLSearchParams(window.location.search);
     qInput.value = params.get("q") || "";
+    typeSelect.value = params.get("type") || "";
     genreSelect.value = params.get("genre") || "";
     yearSelect.value = params.get("year") || "";
 
